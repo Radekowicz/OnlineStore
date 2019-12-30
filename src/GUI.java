@@ -75,7 +75,7 @@ public class GUI extends Application{
     }
 
     public void addItemButtonClicked() {
-        SmallWindow.display("Blabla");
+//        SmallWindow.display("Blabla");
         menuWindow();
     }
 

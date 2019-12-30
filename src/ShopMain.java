@@ -1,4 +1,4 @@
-public class ShopMain extends GUI {
+public class ShopMain extends ControllerMain{
     public static void main(String[] args) {
 
         LocalShop localShop = new LocalShop("Zara");
@@ -8,15 +8,8 @@ public class ShopMain extends GUI {
         localShop.addItem(new Item(34567, "maslo", 6, 20));
         System.out.println("put input");
 
-
-        GUI.setLocalShop(localShop);
-
-
-//        Scanner scanner = new Scanner(System.in);
-//        String input = scanner.nextLine();
-
-        GUI.launch(args);
-
+        Controller.setLocalShop(localShop);
+        ControllerMain.launch(args);
 
     }
 }

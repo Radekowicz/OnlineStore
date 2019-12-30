@@ -8,13 +8,20 @@ import java.util.ResourceBundle;
 public class PopupWindowController implements Initializable {
 
     @FXML
-    AnchorPane anchorPane;
+    static AnchorPane anchorPane;
 
+    public static AnchorPane getAnchorPane() {
+        return anchorPane;
+    }
 
-
+    public static void setAnchorPane(AnchorPane anchorPane) {
+        PopupWindowController.anchorPane = anchorPane;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        System.out.println("xd");
     }
 }
+
+
