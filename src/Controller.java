@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -49,6 +50,7 @@ public class Controller implements Initializable {
 
     @FXML
     Slider sellSlider;
+
 
 
     private static TableItem selectedItem;

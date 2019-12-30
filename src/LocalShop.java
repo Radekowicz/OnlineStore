@@ -42,9 +42,6 @@ public class LocalShop implements ShopInterface {
         return searchedItemList;
     }
 
-
-
-
     @Override
     public Item searchByCode(int code) {
         for(Item item : allItemList) {

@@ -21,6 +21,7 @@ public class Main extends Application {
         Controller.setLocalShop(localShop);
 
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent root2 = FXMLLoader.load(getClass().getResource("PopupWindow.fxml"));
         primaryStage.setTitle("shop");
         primaryStage.setScene(new Scene(root, 800, 540));
         primaryStage.show();
