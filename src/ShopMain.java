@@ -1,14 +1,15 @@
 public class ShopMain extends GUI {
     public static void main(String[] args) {
 
-        ShopInterface shop = new ShopInterface("Zara");
+        LocalShop localShop = new LocalShop("Zara");
 
-        shop.addItem(new Item(12345, "baton", 3, 60));
-        shop.addItem(new Item(23456, "jajko", 2, 100));
-        shop.addItem(new Item(34567, "maslo", 6, 20));
+        localShop.addItem(new Item(12345, "baton", 3, 60));
+        localShop.addItem(new Item(23456, "jajko", 2, 100));
+        localShop.addItem(new Item(34567, "maslo", 6, 20));
         System.out.println("put input");
 
-        GUI.setShop(shop);
+
+        GUI.setLocalShop(localShop);
 
 
 //        Scanner scanner = new Scanner(System.in);

@@ -1,7 +1,7 @@
 public class TableItem {
     private int code;
     private String name;
-    private int price;
+    private float price;
     private int quantity;
 
     public TableItem(Item item) {
@@ -9,5 +9,37 @@ public class TableItem {
         name = item.getName();
         price = item.getPrice();
         quantity = item.getQuantity();
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

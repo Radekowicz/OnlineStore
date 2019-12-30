@@ -1,10 +1,10 @@
 public class Item {
     private int code;
     private String name;
-    private int price;
+    private float price;
     private int quantity;
 
-    public Item(int code, String name, int price, int quantity) {
+    public Item(int code, String name, float price, int quantity) {
         this.code = code;
         this.name = name;
         this.price = price;
@@ -27,11 +27,11 @@ public class Item {
         this.name = name;
     }
 
-    public int getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 
