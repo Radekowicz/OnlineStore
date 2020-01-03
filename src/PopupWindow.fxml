@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="anchorPane" prefHeight="350.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PopupWindowController">
+<AnchorPane id="anchorPane" prefHeight="350.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8.0.221" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PopupWindowController">
    <children>
       <Text layoutX="97.0" layoutY="37.0" stroke="BLACK" strokeDashOffset="1.0" strokeLineCap="BUTT" strokeLineJoin="BEVEL" strokeType="OUTSIDE" strokeWidth="0.3" text="Add new item" textAlignment="CENTER">
          <font>
@@ -22,6 +22,6 @@
             <TextField fx:id="quantityTextField" promptText="Quantity" />
          </children>
       </VBox>
-      <Button layoutX="131.0" layoutY="275.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="87.0" text="Add item" />
+      <Button fx:id="addItemButton" layoutX="131.0" layoutY="275.0" mnemonicParsing="false" onAction="#addItemButtonClicked2" prefHeight="40.0" prefWidth="87.0" text="Add item" />
    </children>
 </AnchorPane>

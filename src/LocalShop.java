@@ -34,10 +34,10 @@ public class LocalShop implements ShopInterface {
     public List<Item> search(String typedString) {
         List<Item> searchedItemList = new ArrayList<>();
         for(Item item : allItemList) {
-            if(String.valueOf(item.getCode()).contains(typedString)) searchedItemList.add(item);
-            else if(item.getName().contains(typedString)) searchedItemList.add(item);
-            else if((String.valueOf(item.getPrice()).contains(typedString))) searchedItemList.add(item);
-            else if((String.valueOf(item.getQuantity()).contains(typedString))) searchedItemList.add(item);
+            if((item.intToString(item.getCode()).toUpperCase()).contains(typedString.toUpperCase())) searchedItemList.add(item);
+            else if(((item.getName().toUpperCase()).contains(typedString.toUpperCase()))) searchedItemList.add(item);
+            else if((item.floatToString(item.getPrice()).toUpperCase()).contains(typedString.toUpperCase())) searchedItemList.add(item);
+            else if((item.intToString(item.getQuantity()).toUpperCase()).contains(typedString.toUpperCase())) searchedItemList.add(item);
         }
         return searchedItemList;
     }

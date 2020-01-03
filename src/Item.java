@@ -50,4 +50,12 @@ public class Item {
                 "Price: " + price + "\n" +
                 "Quantity: " + quantity;
     }
+
+    public String intToString(int i) {
+        return  Integer.toString(i);
+    }
+
+    public String floatToString(float f) {
+        return Float.toString(f);
+    }
 }

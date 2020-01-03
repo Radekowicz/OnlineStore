@@ -10,13 +10,14 @@ public class ControllerMain extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("LocalPrimaryWindow.fxml"));
         primaryStage.setTitle("shop");
         primaryStage.setScene(new Scene(root, 800, 540));
+        primaryStage.setOnCloseRequest(event -> {
+            Controller.closeProgram();
+            primaryStage.close();
+        });
         primaryStage.show();
-
-//        Parent root2 = FXMLLoader.load(getClass().getResource("PopupWindow.fxml"));
-
 
     }
 }

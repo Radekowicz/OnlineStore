@@ -13,6 +13,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.Window;
 
 import java.io.IOException;
 import java.net.URL;
@@ -65,6 +66,10 @@ public class Controller implements Initializable{
         return localShop;
     }
 
+
+    public static void closeProgram() {
+        WriteFile.writeToFile(localShop);
+    }
 
 
     private static final int INIT_VALUE = 1;
@@ -128,6 +133,7 @@ public class Controller implements Initializable{
         ObservableList<TableItem> observableTableItemList = getTableItemObservableList(localShop.getAllItemList());
         tableItemTableView.setItems(observableTableItemList);
     }
+
 
 
     @Override
