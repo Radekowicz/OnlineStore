@@ -1,3 +1,5 @@
+package BusinessLogic;
+
 public class TableItem {
     private int code;
     private String name;

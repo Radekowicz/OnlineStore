@@ -1,4 +1,9 @@
-import javafx.application.Application;
+package GUI;
+
+import BusinessLogic.Item;
+import BusinessLogic.LocalShop;
+import BusinessLogic.TableItem;
+import BusinessLogic.WriteFile;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -8,20 +13,19 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.Window;
 
 import java.io.IOException;
 import java.net.URL;
-import java.rmi.activation.ActivationGroup_Stub;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import static BusinessLogic.WriteFile.*;
 
 public class Controller implements Initializable{
 
@@ -68,7 +72,8 @@ public class Controller implements Initializable{
 
 
     public static void closeProgram() {
-        WriteFile.writeToFile(localShop);
+
+        writeToFile(localShop);
     }
 
 
@@ -87,14 +92,16 @@ public class Controller implements Initializable{
     public void sellButtonClicked() {
         selectedItem = tableItemTableView.getSelectionModel().getSelectedItem();
         Item item = localShop.searchByCode(selectedItem.getCode());
-        if(!(selectedItem == null)) item.setQuantity(item.getQuantity() - Integer.valueOf(sellTextField.getText()));
+//        if(!(selectedItem == null)) item.setQuantity(item.getQuantity() - Integer.valueOf(sellTextField.getText()));
+        if(!(selectedItem == null)) localShop.decreaseItemQuantity(item, Integer.valueOf(sellTextField.getText()));
+
         tableView();
     }
 
     @FXML
     public void addItemButtonClicked() throws Exception {
-        PopupWindowController.setAnchorPane( FXMLLoader.load(getClass().getResource("PopupWindow.fxml")));
-        loadWindow("PopupWindow.fxml", "Add item");
+        PopupWindowController.setAnchorPane( FXMLLoader.load(getClass().getResource("GUI/PopupWindow.fxml")));
+        loadWindow("GUI/PopupWindow.fxml", "Add item");
     }
 
     public void deleteItemButtonClicked() {

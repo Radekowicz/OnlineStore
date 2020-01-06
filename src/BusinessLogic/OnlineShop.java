@@ -1,3 +1,5 @@
+package BusinessLogic;
+
 public class OnlineShop implements ShopInterface {
 
     @Override

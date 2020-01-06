@@ -1,3 +1,6 @@
+package GUI;
+
+import GUI.Controller;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,7 +13,7 @@ public class ControllerMain extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-        Parent root = FXMLLoader.load(getClass().getResource("LocalPrimaryWindow.fxml"));
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("GUI/LocalPrimaryWindow.fxml"));
         primaryStage.setTitle("shop");
         primaryStage.setScene(new Scene(root, 800, 540));
         primaryStage.setOnCloseRequest(event -> {
