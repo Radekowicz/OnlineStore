@@ -54,7 +54,7 @@ public class AnsweringComponent implements Runnable {
                 String itemCode = array[1];
                 String quantity = array[2];
 
-                localShop.increaseItemQuantity(localShop.searchByCode(Integer.parseInt(itemCode)), Integer.parseInt(quantity)); //zwieksza ilosc produktów w sklepeie pytającym ale nie zmniejsza w odpowiedajacym!!!
+                localShop.decreaseItemQuantity(localShop.searchByCode(Integer.parseInt(itemCode)), Integer.parseInt(quantity)); //zmniejsza ilosc produktów w sklepeie odpowiadajacym ale nie zwieksza w pytajacym!!!
             }
 
         } catch (IOException e) {

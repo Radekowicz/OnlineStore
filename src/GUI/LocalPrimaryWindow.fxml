@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -22,7 +23,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
             </TextField>
-            <TableView fx:id="tableItemTableView" onMouseClicked="#setSellSlider" onSort="#tableView" prefHeight="542.0" prefWidth="469.0">
+            <TableView fx:id="tableItemTableView" onMouseClicked="#setSellSlider" onSort="#tableView" prefHeight="542.0" prefWidth="454.0">
               <columns>
                 <TableColumn fx:id="codeColumn" editable="false" prefWidth="114.0" resizable="false" text="Code" />
                 <TableColumn fx:id="nameColumn" editable="false" prefWidth="162.0" resizable="false" text="Name" />
@@ -51,23 +52,18 @@
             <HBox alignment="CENTER" spacing="10.0">
                <children>
                   <Button alignment="BASELINE_LEFT" contentDisplay="RIGHT" mnemonicParsing="false" prefHeight="27.0" prefWidth="70.0" text="Log out" />
-                  <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="70.0" text="Refresh" textAlignment="CENTER" />
+                  <Button mnemonicParsing="false" onAction="#refreshButtonClicked" prefHeight="28.0" prefWidth="70.0" text="Refresh" textAlignment="CENTER" />
                </children>
                <VBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
             </HBox>
-            <TableView prefHeight="450.0" prefWidth="156.0">
-              <columns>
-                <TableColumn prefWidth="155.0" sortable="false" text="Online shops" />
-              </columns>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </VBox.margin>
-            </TableView>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Online shops" textAlignment="CENTER" wrappingWidth="199.701171875">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Text>
+            <ListView fx:id="listView" prefHeight="436.0" prefWidth="121.0" />
             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="27.0" prefWidth="167.0" text="Add shop" textAlignment="CENTER" />
          </children>
       </VBox>

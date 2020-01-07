@@ -6,6 +6,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import BusinessLogic.*;
+
 
 
 public class ControllerMain extends Application {
@@ -14,7 +16,7 @@ public class ControllerMain extends Application {
     public void start(Stage primaryStage) throws Exception{
 
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("GUI/LocalPrimaryWindow.fxml"));
-        primaryStage.setTitle("shop");
+        primaryStage.setTitle(ShopMain.localShop.getName());
         primaryStage.setScene(new Scene(root, 800, 540));
         primaryStage.setOnCloseRequest(event -> {
             Controller.closeProgram();
@@ -22,6 +24,10 @@ public class ControllerMain extends Application {
         });
         primaryStage.show();
 
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }
 

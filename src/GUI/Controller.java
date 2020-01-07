@@ -1,9 +1,6 @@
 package GUI;
 
-import BusinessLogic.Item;
-import BusinessLogic.LocalShop;
-import BusinessLogic.TableItem;
-import BusinessLogic.WriteFile;
+import BusinessLogic.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -18,7 +15,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class Controller implements Initializable{
     private double windowHeight = 540;
 
     @FXML
-    private BorderPane borderPane;
+    public static BorderPane borderPane;
 
     @FXML
     private TableView<TableItem> tableItemTableView;
@@ -62,6 +63,10 @@ public class Controller implements Initializable{
     @FXML
     Slider sellSlider;
 
+    @FXML
+    ListView listView;
+
+
 
 
     private static TableItem selectedItem;
@@ -70,11 +75,62 @@ public class Controller implements Initializable{
         return localShop;
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+//        try {
+//            loadLoginWIndow();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+        tableView();
+    }
+
+    public void loadLoginWIndow() throws IOException{
+        PopupWindowController.setAnchorPane( FXMLLoader.load(getClass().getResource("GUI/LoginWindow.fxml")));
+        loadWindow("GUI/LoginWindow.fxml", "Login");
+    }
+
 
     public static void closeProgram() {
 
         writeToFile(localShop);
     }
+
+    public void refreshButtonClicked() {
+        String answer = sendRequestAndReturnAnswer("getShopList");
+        String[] array =  answer.split(";");
+
+        ObservableList<String> observableList = FXCollections.observableArrayList(array);
+        listView.setItems(observableList);
+
+
+    }
+
+
+    public String sendRequestAndReturnAnswer(String request) {
+        String answerString;
+        try {
+            Socket socket = ShopMain.socket;
+            PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
+
+            printWriter.println(request);
+            printWriter.flush();
+
+
+            //waiting for answer
+            InputStreamReader inputStreamReader = new InputStreamReader(socket.getInputStream());
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+            answerString = bufferedReader.readLine();
+
+        } catch (IOException e) {
+                throw new RuntimeException(e);
+        }
+        return answerString;
+    }
+
+
+
 
 
     private static final int INIT_VALUE = 1;
@@ -143,10 +199,7 @@ public class Controller implements Initializable{
 
 
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        tableView();
-    }
+
 
     public static List<TableItem> getTableItemList(List<Item> itemList) {
         List<TableItem> tableItemList = new ArrayList<>();
@@ -180,5 +233,9 @@ public class Controller implements Initializable{
         } catch (IOException ex) {
             System.out.println("exception");
         }
+    }
+
+    public static void setBorderPane(BorderPane borderPane) {
+        Controller.borderPane = borderPane;
     }
 }
