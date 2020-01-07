@@ -3,13 +3,15 @@ package BusinessLogic;
 import GUI.Controller;
 import GUI.ControllerMain;
 import GUI.LoginMain;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class ShopMain extends LoginMain {
+public class ShopMain extends ControllerMain{
 
     public static LocalShop localShop;
 
@@ -23,13 +25,13 @@ public class ShopMain extends LoginMain {
 
     public static void main(String[] args) {
 
-//        Scanner scanner = new Scanner(System.in);
-//        System.out.println("Gimme shop name");
-//        String shopName = scanner.next();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Gimme shop name");
+        String shopName = scanner.next();
 
-        LoginMain.launch();//trzeba poczekać aż ustawi sie shopname
-        shopName = "dfgdfg";
-
+//        LoginMain.launch();//trzeba poczekać aż ustawi sie shopname
+//        shopName = "dfgdfg";
+//
 //        new Thread(new Runnable() {
 //            @Override
 //            public void run() {
@@ -70,7 +72,8 @@ public class ShopMain extends LoginMain {
             synchronized (monitor) {
                 try {
                     monitor.wait(); // wait until notified
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                }
             }
         }
     }

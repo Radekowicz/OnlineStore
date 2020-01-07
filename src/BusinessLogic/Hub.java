@@ -41,7 +41,7 @@ public class Hub {
                 if (str == null)
                     break;
 
-                System.out.println("client: " + str);
+                System.out.println("request: " + str);
 
                 String[] array =  str.split(";");
                 String requestString = array[0];
