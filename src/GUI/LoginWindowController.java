@@ -31,19 +31,16 @@ public class LoginWindowController  {
         String shopName = shopNameTextField.getText();
         ShopMain.setShopName(shopName);
 
-
-//        try {
-//            Controller.setBorderPane(FXMLLoader.load(getClass().getClassLoader().getResource("GUI/LocalPrimaryWindow.fxml")));
-//
-//            loadWindow("GUI/LocalPrimaryWindow.fxml", "Login");
-//        } catch (IOException ex) {
-//            System.out.println("exception");
-//        }
+        Stage stage = (Stage) anchorPane.getScene().getWindow();
+        stage.close();
+        loadWindow("GUI/LocalPrimaryWindow.fxml", "Login");
     }
 
     public void loadWindow(String loc, String title) {
+
+
         try {
-            Parent parent = FXMLLoader.load(getClass().getResource(loc));
+            Parent parent = FXMLLoader.load(getClass().getClassLoader().getResource(loc));
             Stage stage = new Stage(StageStyle.DECORATED);
             stage.setTitle(title);
             stage.setScene(new Scene(parent));

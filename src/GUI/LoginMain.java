@@ -18,10 +18,10 @@ public class LoginMain extends Application {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("GUI/LoginWindow.fxml"));
         primaryStage.setTitle("Login window");
         primaryStage.setScene(new Scene(root, 500, 300));
-//        primaryStage.setOnCloseRequest(event -> {
-//            Controller.closeProgram();
-//            primaryStage.close();
-//        });
+        primaryStage.setOnCloseRequest(event -> {
+            Controller.closeProgram();
+            primaryStage.close();
+        });
         primaryStage.show();
 
     }

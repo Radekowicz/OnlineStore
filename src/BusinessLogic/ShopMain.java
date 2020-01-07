@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class ShopMain extends ControllerMain{
+public class ShopMain extends LoginMain{
 
     public static LocalShop localShop;
 
@@ -25,12 +25,11 @@ public class ShopMain extends ControllerMain{
 
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Gimme shop name");
-        String shopName = scanner.next();
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.println("Gimme shop name");
+//        String shopName = scanner.next();
 
-//        LoginMain.launch();//trzeba poczekać aż ustawi sie shopname
-//        shopName = "dfgdfg";
+        String shopName = "dfgdfg";
 //
 //        new Thread(new Runnable() {
 //            @Override
@@ -58,7 +57,9 @@ public class ShopMain extends ControllerMain{
         ReadFile.readFile(localShop);
 
         Controller.setLocalShop(localShop);
-        ControllerMain.launch(args);
+
+        LoginMain.launch();
+//        ControllerMain.launch(args);
 
     }
 
