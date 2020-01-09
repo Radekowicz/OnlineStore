@@ -1,57 +1,47 @@
 package BusinessLogic;
 
-import javax.rmi.CORBA.Util;
 import java.net.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import GUI.LoginWindowController;
 
 
 public class Hub {
 
-    private static HashMap<String, Socket> clientNameToSocketMap;
+    private static HashMap<String, Socket> shopNameToSocketGUIMap;
+    private static HashMap<String, Socket> shopNameToSocketACMap;
 
     public static List<LocalShop> onlineShopList;
-
-    public static void addShop(LocalShop shop) {
-        onlineShopList.add(shop);
-    }
-
-    public static void deleteShop(LocalShop shop) {
-        List<String> shopList = new ArrayList<>(clientNameToSocketMap.keySet());
-        if(shopList.contains(shop))
-            clientNameToSocketMap.remove(shop);
-        else System.out.println("shop not found");
-    }
-
-
 
 
     public static void main(String[] args) throws IOException {
         onlineShopList = new ArrayList<>();
         System.out.println("Online shop list created");
         ServerSocket ss = new ServerSocket(4999);
-        clientNameToSocketMap = new HashMap<>();
+        shopNameToSocketGUIMap = new HashMap<>();
+        shopNameToSocketACMap = new HashMap<>();
 
 
         while (true) {
-            Socket s = ss.accept();
-            Thread t = new Thread(() -> handleClient(s));
+            Socket socketGUI = ss.accept();
+            Socket socketAC = ss.accept();
+
+            Thread t = new Thread(() -> handleClient(socketGUI, socketAC));
             t.start();
         }
     }
 
-    public static void handleClient(Socket s) {
+    public static void handleClient(Socket socketGUI, Socket socketAC) {
         try {
             System.out.println("client connected");
 
-            InputStreamReader in = new InputStreamReader(s.getInputStream());
+            InputStreamReader in = new InputStreamReader(socketGUI.getInputStream());
             BufferedReader bf = new BufferedReader(in);
 
             String userName = bf.readLine();
-            clientNameToSocketMap.put(userName, s);
+            shopNameToSocketGUIMap.put(userName, socketGUI);
+            shopNameToSocketACMap.put(userName, socketAC);
             System.out.println(userName);
 
             while (true) {
@@ -65,10 +55,10 @@ public class Hub {
                 String requestString = array[0];
 
                 if("getShopList".equals(requestString)) {
-                    List<String> shopList = new ArrayList<>(clientNameToSocketMap.keySet());
+                    List<String> shopList = new ArrayList<>(shopNameToSocketGUIMap.keySet());
                     String shopListToString = Utils.arrayToString(shopList);
 
-                    PrintWriter recipientPrintWriter = new PrintWriter(s.getOutputStream());
+                    PrintWriter recipientPrintWriter = new PrintWriter(socketGUI.getOutputStream());
                     recipientPrintWriter.println(shopListToString);
                     recipientPrintWriter.flush();
                 }
@@ -77,19 +67,19 @@ public class Hub {
                     String shopName = array[1];
                     String searchInput = array[2];
 
-                    Socket recipientSocket = clientNameToSocketMap.get(shopName);
+                    Socket recipientSocketAC = shopNameToSocketACMap.get(shopName);
 
-                    PrintWriter recipientPrintWriter = new PrintWriter(recipientSocket.getOutputStream());
+                    PrintWriter recipientPrintWriter = new PrintWriter(recipientSocketAC.getOutputStream());
                     recipientPrintWriter.println(requestString + ";" + searchInput);
                     recipientPrintWriter.flush();
 
                     //listen
-                    InputStreamReader in2 = new InputStreamReader(recipientSocket.getInputStream());
+                    InputStreamReader in2 = new InputStreamReader(recipientSocketAC.getInputStream());
                     BufferedReader bf2 = new BufferedReader(in2);
                     String answerFromShop = bf2.readLine();
 
                     //answer to source
-                    PrintWriter pr = new PrintWriter(s.getOutputStream());
+                    PrintWriter pr = new PrintWriter(socketGUI.getOutputStream());
                     pr.println(answerFromShop);
                     pr.flush();
                 }
@@ -99,21 +89,19 @@ public class Hub {
                     String itemCode = array[2];
                     String quantity = array[3];
 
-                    Socket recipientSocket = clientNameToSocketMap.get(shopName);
+                    Socket recipientSocketAC = shopNameToSocketACMap.get(shopName);
 
-                    PrintWriter recipientPrintWriter = new PrintWriter(recipientSocket.getOutputStream());
+                    PrintWriter recipientPrintWriter = new PrintWriter(recipientSocketAC.getOutputStream());
                     recipientPrintWriter.println(requestString + ";" + itemCode + ";" + quantity);
                     recipientPrintWriter.flush();
 
-                    //pewnie jakiś if by się przydał do czekania
-
                     //listen
-                    InputStreamReader in2 = new InputStreamReader(recipientSocket.getInputStream());
+                    InputStreamReader in2 = new InputStreamReader(recipientSocketAC.getInputStream());
                     BufferedReader bf2 = new BufferedReader(in2);
                     String answerFromShop = bf2.readLine();
 
                     //answer to source
-                    PrintWriter pr = new PrintWriter(s.getOutputStream());
+                    PrintWriter pr = new PrintWriter(socketGUI.getOutputStream());
                     pr.println(answerFromShop);
                     pr.flush();
 

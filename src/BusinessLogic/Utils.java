@@ -27,7 +27,7 @@ public class Utils {
     public static String sendRequestAndReturnAnswer(String request) {
         String answerString;
         try {
-            Socket socket = ShopMain.socket;
+            Socket socket = ShopMain.socketGUI;
             PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
 
             printWriter.println(request);

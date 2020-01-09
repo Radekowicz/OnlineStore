@@ -59,17 +59,20 @@ public class LoginWindowController  {
 
     public void sendShopName(String shopName) {
         try {
-            Socket socket = new Socket("localhost", 4999);
-            ShopMain.setSocket(socket);
-            PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
+            Socket socketGUI = new Socket("localhost", 4999);
+            Socket socketAC = new Socket("localhost", 4999);
+            ShopMain.setSocketGUI(socketGUI);
+            ShopMain.setSocketAC(socketAC);
+
+            PrintWriter printWriter = new PrintWriter(socketGUI.getOutputStream()); //wysła nazwe sklepu do gui
             printWriter.println(shopName);
             printWriter.flush();
+
             LocalShop localShop = new LocalShop(shopName);
-            AnsweringComponent answeringComponent = new AnsweringComponent(localShop, socket);
+            AnsweringComponent answeringComponent = new AnsweringComponent(localShop, socketAC); //tutaj inny socketAC pomiedzy AC a hubem
             Thread thread = new Thread(answeringComponent);
             thread.start();
 
-            Socket socket2 = new Socket("localhost", 4999);
 
 
             ReadFile.readFile(localShop);

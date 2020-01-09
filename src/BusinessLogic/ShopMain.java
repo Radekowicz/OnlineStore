@@ -16,7 +16,9 @@ public class ShopMain extends LoginMain{
 
     public static LocalShop localShop;
 
-    public static Socket socket;
+    public static Socket socketGUI;
+    public static Socket socketAC;
+
 
     public static String shopName;
 
@@ -56,16 +58,16 @@ public class ShopMain extends LoginMain{
 //        Controller.setLocalShop(localShop);
 
         LoginMain.launch();
-//        ControllerMain.launch(args);
 
     }
 
-    public static void setShopName(String shopName) {
-        ShopMain.shopName = shopName;
+
+    public static void setSocketGUI(Socket socketGUI) {
+        ShopMain.socketGUI = socketGUI;
     }
 
 
-    public static void setSocket(Socket socket) {
-        ShopMain.socket = socket;
+    public static void setSocketAC(Socket socketAC) {
+        ShopMain.socketAC = socketAC;
     }
 }
