@@ -6,14 +6,32 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import GUI.LoginWindowController;
+
 
 public class Hub {
 
     private static HashMap<String, Socket> clientNameToSocketMap;
 
+    public static List<LocalShop> onlineShopList;
+
+    public static void addShop(LocalShop shop) {
+        onlineShopList.add(shop);
+    }
+
+    public static void deleteShop(LocalShop shop) {
+        List<String> shopList = new ArrayList<>(clientNameToSocketMap.keySet());
+        if(shopList.contains(shop))
+            clientNameToSocketMap.remove(shop);
+        else System.out.println("shop not found");
+    }
+
+
 
 
     public static void main(String[] args) throws IOException {
+        onlineShopList = new ArrayList<>();
+        System.out.println("Online shop list created");
         ServerSocket ss = new ServerSocket(4999);
         clientNameToSocketMap = new HashMap<>();
 

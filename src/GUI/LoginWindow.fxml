@@ -6,7 +6,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane fx:id="anchorPane" prefHeight="253.0" prefWidth="444.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.LoginWindowController">
    <children>
       <Text layoutX="110.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ENTER SHOP NAME" textAlignment="CENTER">
@@ -14,7 +13,7 @@
             <Font size="24.0" />
          </font>
       </Text>
-      <TextField fx:id="shopNameTextField" layoutX="140.0" layoutY="127.0" />
+      <TextField fx:id="shopNameTextField" layoutX="140.0" layoutY="127.0" onAction="#submitButtonClicked" />
       <Button layoutX="168.0" layoutY="167.0" mnemonicParsing="false" onAction="#submitButtonClicked" prefHeight="28.0" prefWidth="110.0" text="SUBMIT" />
    </children>
 </AnchorPane>

@@ -15,18 +15,15 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 import java.util.ResourceBundle;
 
-import static BusinessLogic.WriteFile.*;
 
 public class Controller implements Initializable{
 
@@ -64,12 +61,12 @@ public class Controller implements Initializable{
     Slider sellSlider;
 
     @FXML
-    ListView listView;
-
-
+    ListView<String> listView;
 
 
     private static TableItem selectedItem;
+
+
 
     public static LocalShop getLocalShop() {
         return localShop;
@@ -77,34 +74,37 @@ public class Controller implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//        try {
-//            loadLoginWIndow();
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
         tableView();
     }
 
-    public void loadLoginWIndow() throws IOException{
-        PopupWindowController.setAnchorPane( FXMLLoader.load(getClass().getResource("GUI/LoginWindow.fxml")));
-        loadWindow("GUI/LoginWindow.fxml", "Login");
+
+    public void selectShop() {
+        String selectedShopName = listView.getSelectionModel().getSelectedItem();
+
+        loadWindow("GUI/OnlineSearchWindow.fxml", "Online search");
     }
 
 
     public static void closeProgram() {
+        WriteFile.writeToFile(localShop, ReadFile.getOut());
+        System.out.println("closebutton clicked");
+//        Hub.deleteShop(localShop);
+    }
 
-        writeToFile(localShop);
+
+    public void saveProgram() {
+        WriteFile.writeToFile(localShop, ReadFile.getOut());
+        System.out.println("closebutton clicked");
     }
 
     public void refreshButtonClicked() {
         String answer = sendRequestAndReturnAnswer("getShopList");
-        String[] array =  answer.split(";");
+        String[] onlineShopArray =  answer.split(";");
 
-        ObservableList<String> observableList = FXCollections.observableArrayList(array);
+        ObservableList<String> observableList = FXCollections.observableArrayList(onlineShopArray);
         listView.setItems(observableList);
-
-
     }
+
 
 
     public String sendRequestAndReturnAnswer(String request) {
@@ -148,7 +148,6 @@ public class Controller implements Initializable{
     public void sellButtonClicked() {
         selectedItem = tableItemTableView.getSelectionModel().getSelectedItem();
         Item item = localShop.searchByCode(selectedItem.getCode());
-//        if(!(selectedItem == null)) item.setQuantity(item.getQuantity() - Integer.valueOf(sellTextField.getText()));
         if(!(selectedItem == null)) localShop.decreaseItemQuantity(item, Integer.valueOf(sellTextField.getText()));
 
         tableView();
@@ -156,7 +155,7 @@ public class Controller implements Initializable{
 
     @FXML
     public void addItemButtonClicked() throws Exception {
-        PopupWindowController.setAnchorPane( FXMLLoader.load(getClass().getResource("GUI/PopupWindow.fxml")));
+//        PopupWindowController.setAnchorPane( FXMLLoader.load(getClass().getResource("GUI/PopupWindow.fxml")));
         loadWindow("GUI/PopupWindow.fxml", "Add item");
     }
 
@@ -187,12 +186,6 @@ public class Controller implements Initializable{
         //quantity
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
-//        codeColumn.prefWidthProperty().bind(tableItemTableView.widthProperty().divide(2.5)); // w * 1/4
-//        nameColumn.prefWidthProperty().bind(tableItemTableView.widthProperty().divide(2.5)); // w * 1/4
-//        priceColumn.prefWidthProperty().bind(tableItemTableView.widthProperty().divide(2.5)); // w * 1/4
-//        quantityColumn.prefWidthProperty().bind(tableItemTableView.widthProperty().divide(2.5)); // w * 1/4
-
-
         ObservableList<TableItem> observableTableItemList = getTableItemObservableList(localShop.getAllItemList());
         tableItemTableView.setItems(observableTableItemList);
     }
@@ -218,13 +211,14 @@ public class Controller implements Initializable{
         return observableTableItemList;
     }
 
+
     public static void setLocalShop(LocalShop localShop) {
         Controller.localShop = localShop;
     }
 
     public void loadWindow(String loc, String title) {
         try {
-            Parent parent = FXMLLoader.load(getClass().getResource(loc));
+            Parent parent = FXMLLoader.load(getClass().getClassLoader().getResource(loc));
             Stage stage = new Stage(StageStyle.DECORATED);
             stage.setTitle(title);
             stage.setScene(new Scene(parent));

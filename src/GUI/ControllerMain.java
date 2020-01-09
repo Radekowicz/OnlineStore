@@ -2,6 +2,7 @@ package GUI;
 
 import GUI.Controller;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -17,11 +18,8 @@ public class ControllerMain extends Application {
 
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("GUI/LocalPrimaryWindow.fxml"));
         primaryStage.setTitle(ShopMain.localShop.getName());
-        primaryStage.setScene(new Scene(root, 800, 540));
-        primaryStage.setOnCloseRequest(event -> {
-            Controller.closeProgram();
-            primaryStage.close();
-        });
+        primaryStage.setScene(new Scene(root));
+        primaryStage.setOnCloseRequest(e -> System.exit(0));
         primaryStage.show();
 
     }

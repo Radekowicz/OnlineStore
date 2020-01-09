@@ -1,37 +1,35 @@
 package BusinessLogic;
 
+import GUI.Controller;
+
 import java.io.*;
 import java.util.Scanner;
 
 
 public class ReadFile {
-    private Scanner items;
+    public static FileOutputStream out;
 
-    public void openFile() {
-        try {
-            this.items = new Scanner(new File("files/items.txt"));
-
-        } catch (FileNotFoundException e) {
-            System.out.println("could not find file... \n");
-        }
-    }
-
-//    public void readFile(School school) {
-//        while (items != null && items.hasNext()) {
-//            String subjectName = items.next();
-//            school.getSubjectList().add(new Subject(subjectName));
-//        }
-//    }
+    public static File file;
 
     public static void readFile(LocalShop localShop) {
 
         try{
-            // Open the file that is the first
-            // command line parameter
-            FileInputStream fstream = new FileInputStream("files/items.txt");
-            // Get the object of DataInputStream
+            System.out.println("i am reading file: "  + "files/" + localShop.getName() + ".txt");
+            if(file != null && file.exists()) {
+            }
+            else {
+                file = new File("files/" + localShop.getName() + ".txt");
+                out = new FileOutputStream(file);
+            }
+
+
+//            out = new FileOutputStream(file);
+
+            FileInputStream fstream = new FileInputStream("files/" + localShop.getName() + ".txt");
+
             DataInputStream in = new DataInputStream(fstream);
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
+
             String strLine;
             //Read File Line By Line
             while ((strLine = br.readLine()) != null)   {
@@ -52,9 +50,7 @@ public class ReadFile {
         }
     }
 
-
-    public void closeFile() {
-        if (items != null)
-            items.close();
+    public static FileOutputStream getOut() {
+        return out;
     }
 }
