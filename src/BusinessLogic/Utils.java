@@ -1,10 +1,14 @@
 package BusinessLogic;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Utils {
@@ -46,6 +50,21 @@ public class Utils {
         return answerString;
     }
 
+    public static ObservableList<TableItem> getTableItemObservableList(List<Item> itemList) {
 
+        List<TableItem> tableItemList = getTableItemList(itemList);
+
+        ObservableList<TableItem> observableTableItemList = FXCollections.observableArrayList(tableItemList);
+        return observableTableItemList;
+    }
+
+
+    public static List<TableItem> getTableItemList(List<Item> itemList) {
+        List<TableItem> tableItemList = new ArrayList<>();
+        for (Item item : itemList) {
+            tableItemList.add(new TableItem(item));
+        }
+        return tableItemList;
+    }
 
 }

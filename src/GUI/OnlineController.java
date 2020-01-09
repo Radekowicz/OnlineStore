@@ -3,6 +3,7 @@ package GUI;
 import BusinessLogic.Item;
 import BusinessLogic.TableItem;
 import BusinessLogic.Utils;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +19,8 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.net.URL;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class OnlineController implements Initializable {
@@ -49,6 +52,8 @@ public class OnlineController implements Initializable {
     @FXML
     private TextField searchTextField;
 
+    private ObservableList<TableItem> observableTableItemList;
+
     public static String shopName;
 
     public static void setShopName(String shopName) {
@@ -64,6 +69,17 @@ public class OnlineController implements Initializable {
     public void searchButtonClicked() {
         String answer = Utils.sendRequestAndReturnAnswer("searchItems;" + shopName + ";" + searchTextField.getText());
         String[] searchedItems =  answer.split(";");
+        List<TableItem> tableItemList = new ArrayList<>();
+        for(int i = 0; i < searchedItems.length; i++) {
+            String[] itemFields = searchedItems[i].split(",");
+            int code = Integer.parseInt(itemFields[0]);
+            String name = itemFields[1];
+            float price = Float.parseFloat(itemFields[2]);
+            int quantity = Integer.parseInt(itemFields[3]);
+            tableItemList.add(new TableItem(new Item(code,name,price,quantity)));
+        }
+        observableTableItemList = FXCollections.observableArrayList(tableItemList);
+        tableView(observableTableItemList);
         System.out.println(answer);
     }
 

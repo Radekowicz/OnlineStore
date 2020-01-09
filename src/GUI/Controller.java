@@ -89,7 +89,6 @@ public class Controller implements Initializable{
     public static void closeProgram() {
         WriteFile.writeToFile(localShop, ReadFile.getOut());
         System.out.println("closebutton clicked");
-//        Hub.deleteShop(localShop);
     }
 
 
@@ -144,7 +143,7 @@ public class Controller implements Initializable{
     public void searchField() {
         String typedString = searchTextField.getText();
         List<Item> itemList = localShop.search(typedString);
-        tableItemTableView.setItems(getTableItemObservableList(itemList));
+        tableItemTableView.setItems(Utils.getTableItemObservableList(itemList));
     }
 
 
@@ -161,30 +160,10 @@ public class Controller implements Initializable{
         //quantity
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
-        ObservableList<TableItem> observableTableItemList = getTableItemObservableList(localShop.getAllItemList());
+        ObservableList<TableItem> observableTableItemList = Utils.getTableItemObservableList(localShop.getAllItemList());
         tableItemTableView.setItems(observableTableItemList);
     }
 
-
-
-
-
-    public static List<TableItem> getTableItemList(List<Item> itemList) {
-        List<TableItem> tableItemList = new ArrayList<>();
-        for (Item item : itemList) {
-            tableItemList.add(new TableItem(item));
-        }
-        return tableItemList;
-    }
-
-
-    public static ObservableList<TableItem> getTableItemObservableList(List<Item> itemList) {
-
-        List<TableItem> tableItemList = getTableItemList(itemList);
-
-        ObservableList<TableItem> observableTableItemList = FXCollections.observableArrayList(tableItemList);
-        return observableTableItemList;
-    }
 
 
     public static void setLocalShop(LocalShop localShop) {

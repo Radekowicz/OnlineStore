@@ -84,29 +84,29 @@ public class Hub {
                     pr.flush();
                 }
 
-                else if("sendItem".equals(requestString)) {
-                    String shopName = array[1];
-                    String itemCode = array[2];
-                    String quantity = array[3];
-
-                    Socket recipientSocketAC = shopNameToSocketACMap.get(shopName);
-
-                    PrintWriter recipientPrintWriter = new PrintWriter(recipientSocketAC.getOutputStream());
-                    recipientPrintWriter.println(requestString + ";" + itemCode + ";" + quantity);
-                    recipientPrintWriter.flush();
-
-                    //listen
-                    InputStreamReader in2 = new InputStreamReader(recipientSocketAC.getInputStream());
-                    BufferedReader bf2 = new BufferedReader(in2);
-                    String answerFromShop = bf2.readLine();
-
-                    //answer to source
-                    PrintWriter pr = new PrintWriter(socketGUI.getOutputStream());
-                    pr.println(answerFromShop);
-                    pr.flush();
-
-
-                }
+//                else if("sendItem".equals(requestString)) {
+//                    String shopName = array[1];
+//                    String itemCode = array[2];
+//                    String quantity = array[3];
+//
+//                    Socket recipientSocketAC = shopNameToSocketACMap.get(shopName);
+//
+//                    PrintWriter recipientPrintWriter = new PrintWriter(recipientSocketAC.getOutputStream());
+//                    recipientPrintWriter.println(requestString + ";" + itemCode + ";" + quantity);
+//                    recipientPrintWriter.flush();
+//
+//                    //listen
+//                    InputStreamReader in2 = new InputStreamReader(recipientSocketAC.getInputStream());
+//                    BufferedReader bf2 = new BufferedReader(in2);
+//                    String answerFromShop = bf2.readLine();
+//
+//                    //answer to source
+//                    PrintWriter pr = new PrintWriter(socketGUI.getOutputStream());
+//                    pr.println(answerFromShop);
+//                    pr.flush();
+//
+//
+//                }
 
 
             }
