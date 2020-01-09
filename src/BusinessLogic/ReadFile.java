@@ -14,13 +14,19 @@ public class ReadFile {
     public static void readFile(LocalShop localShop) {
 
         try{
+            File tmpDir = new File("files/" + localShop.getName() + ".txt");
+            boolean exists = tmpDir.exists();
+
             System.out.println("i am reading file: "  + "files/" + localShop.getName() + ".txt");
-            if(file != null && file.exists()) {
+
+            if(exists) {
             }
             else {
                 file = new File("files/" + localShop.getName() + ".txt");
                 out = new FileOutputStream(file);
             }
+
+
 
 
 //            out = new FileOutputStream(file);

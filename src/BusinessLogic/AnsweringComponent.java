@@ -37,7 +37,7 @@ public class AnsweringComponent implements Runnable {
             String inputString = readFromServer();
             String[] array =  inputString.split(";");
             String requestString = array[0];
-
+            System.out.println("input:" + inputString);
 
             if("searchItems".equals(requestString)) {
                 String searchInput = array[1];
@@ -45,6 +45,8 @@ public class AnsweringComponent implements Runnable {
                 List<Item> searchResults = localShop.search(searchInput);
 
                 String searchResultsToString = Utils.itemArrayToString(searchResults); //item1;item2;item3...   item -> code,name,price,quantity;
+                System.out.println("output:" + searchResultsToString);
+
 
                 printWriter.println(searchResultsToString);
                 printWriter.flush();

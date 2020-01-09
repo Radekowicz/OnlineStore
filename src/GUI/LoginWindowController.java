@@ -64,15 +64,13 @@ public class LoginWindowController  {
             PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
             printWriter.println(shopName);
             printWriter.flush();
-
             LocalShop localShop = new LocalShop(shopName);
-            //dodaj sklep do listy sklepów
-//            Hub.addShop(localShop);
-
             AnsweringComponent answeringComponent = new AnsweringComponent(localShop, socket);
-
             Thread thread = new Thread(answeringComponent);
             thread.start();
+
+            Socket socket2 = new Socket("localhost", 4999);
+
 
             ReadFile.readFile(localShop);
 

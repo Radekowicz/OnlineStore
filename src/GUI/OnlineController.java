@@ -2,6 +2,7 @@ package GUI;
 
 import BusinessLogic.Item;
 import BusinessLogic.TableItem;
+import BusinessLogic.Utils;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -45,10 +46,33 @@ public class OnlineController implements Initializable {
     @FXML
     private Button orderButton;
 
+    @FXML
+    private TextField searchTextField;
+
+    public static String shopName;
+
+    public static void setShopName(String shopName) {
+        OnlineController.shopName = shopName;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
     }
+
+
+    public void searchButtonClicked() {
+        String answer = Utils.sendRequestAndReturnAnswer("searchItems;" + shopName + ";" + searchTextField.getText());
+        String[] searchedItems =  answer.split(";");
+        System.out.println(answer);
+    }
+
+
+
+
+
+
+
 
     private static final int INIT_VALUE = 1;
     public void setOrderSlider() {
@@ -69,8 +93,6 @@ public class OnlineController implements Initializable {
 //
 //        tableView();
     }
-
-
 
 
     public void tableView(ObservableList<TableItem> observableTableItemList) {

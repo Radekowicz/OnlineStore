@@ -80,6 +80,7 @@ public class Controller implements Initializable{
 
     public void selectShop() {
         String selectedShopName = listView.getSelectionModel().getSelectedItem();
+        OnlineController.setShopName(selectedShopName);
 
         loadWindow("GUI/OnlineSearchWindow.fxml", "Online search");
     }
@@ -98,38 +99,12 @@ public class Controller implements Initializable{
     }
 
     public void refreshButtonClicked() {
-        String answer = sendRequestAndReturnAnswer("getShopList");
+        String answer = Utils.sendRequestAndReturnAnswer("getShopList");
         String[] onlineShopArray =  answer.split(";");
 
         ObservableList<String> observableList = FXCollections.observableArrayList(onlineShopArray);
         listView.setItems(observableList);
     }
-
-
-
-    public String sendRequestAndReturnAnswer(String request) {
-        String answerString;
-        try {
-            Socket socket = ShopMain.socket;
-            PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
-
-            printWriter.println(request);
-            printWriter.flush();
-
-
-            //waiting for answer
-            InputStreamReader inputStreamReader = new InputStreamReader(socket.getInputStream());
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-            answerString = bufferedReader.readLine();
-
-        } catch (IOException e) {
-                throw new RuntimeException(e);
-        }
-        return answerString;
-    }
-
-
 
 
 

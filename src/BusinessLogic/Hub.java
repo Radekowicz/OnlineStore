@@ -82,6 +82,16 @@ public class Hub {
                     PrintWriter recipientPrintWriter = new PrintWriter(recipientSocket.getOutputStream());
                     recipientPrintWriter.println(requestString + ";" + searchInput);
                     recipientPrintWriter.flush();
+
+                    //listen
+                    InputStreamReader in2 = new InputStreamReader(recipientSocket.getInputStream());
+                    BufferedReader bf2 = new BufferedReader(in2);
+                    String answerFromShop = bf2.readLine();
+
+                    //answer to source
+                    PrintWriter pr = new PrintWriter(s.getOutputStream());
+                    pr.println(answerFromShop);
+                    pr.flush();
                 }
 
                 else if("sendItem".equals(requestString)) {
@@ -116,5 +126,7 @@ public class Hub {
             throw new RuntimeException(e);
         }
     }
+
+
 
 }
