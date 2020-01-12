@@ -23,7 +23,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
             </TextField>
-            <TableView fx:id="tableItemTableView" onMouseClicked="#setSellSlider" onSort="#tableView" prefHeight="542.0" prefWidth="454.0">
+            <TableView fx:id="tableItemTableView" onDragDetected="#tableView" onMouseClicked="#setSellSlider" onMouseDragEntered="#tableView" onSort="#tableView" prefHeight="542.0" prefWidth="454.0">
               <columns>
                 <TableColumn fx:id="codeColumn" editable="false" prefWidth="109.0" resizable="false" text="Code" />
                 <TableColumn fx:id="nameColumn" editable="false" prefWidth="150.0" resizable="false" text="Name" />
@@ -64,7 +64,7 @@
                </font>
             </Text>
             <ListView fx:id="listView" prefHeight="436.0" prefWidth="121.0" />
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#selectShop" prefHeight="27.0" prefWidth="167.0" text="Select shop" textAlignment="CENTER" />
+            <Button fx:id="selectButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#selectShop" prefHeight="27.0" prefWidth="167.0" text="Select shop" textAlignment="CENTER" />
          </children>
       </VBox>
    </left>

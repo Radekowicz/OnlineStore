@@ -50,6 +50,18 @@ public class Utils {
         return answerString;
     }
 
+    public static void sendRequest(String request) {
+        try {
+            Socket socket = ShopMain.socketGUI;
+            PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
+
+            printWriter.println(request);
+            printWriter.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static ObservableList<TableItem> getTableItemObservableList(List<Item> itemList) {
 
         List<TableItem> tableItemList = getTableItemList(itemList);

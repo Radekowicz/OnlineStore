@@ -20,16 +20,13 @@ public class ReadFile {
             System.out.println("i am reading file: "  + "files/" + localShop.getName() + ".txt");
 
             if(exists) {
+                //do nothing
             }
             else {
                 file = new File("files/" + localShop.getName() + ".txt");
                 out = new FileOutputStream(file);
             }
 
-
-
-
-//            out = new FileOutputStream(file);
 
             FileInputStream fstream = new FileInputStream("files/" + localShop.getName() + ".txt");
 
@@ -51,8 +48,8 @@ public class ReadFile {
             }
             //Close the input stream
             in.close();
-        }catch (Exception e){//Catch exception if any
-            System.err.println("Error: " + e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

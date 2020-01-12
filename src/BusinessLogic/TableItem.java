@@ -3,13 +3,13 @@ package BusinessLogic;
 public class TableItem {
     private int code;
     private String name;
-    private float price;
+    private String price;
     private int quantity;
 
     public TableItem(Item item) {
         code = item.getCode();
         name = item.getName();
-        price = item.getPrice();
+        price = String.format("%.2f", item.getPrice());
         quantity = item.getQuantity();
     }
 
@@ -29,11 +29,11 @@ public class TableItem {
         this.name = name;
     }
 
-    public float getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 

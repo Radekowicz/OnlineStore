@@ -21,7 +21,7 @@
                   <Button mnemonicParsing="false" onAction="#searchButtonClicked" prefHeight="27.0" prefWidth="100.0" text="Search" />
                </children>
             </HBox>
-            <TableView fx:id="tableItemTableView" prefHeight="373.0" prefWidth="577.0">
+            <TableView fx:id="tableItemTableView" onDragDetected="#setOrderSlider" onMouseClicked="#setOrderSlider" prefHeight="373.0" prefWidth="577.0">
               <columns>
                 <TableColumn fx:id="codeColumn" prefWidth="79.0" text="Code" />
                 <TableColumn fx:id="nameColumn" prefWidth="140.0" text="Name" />

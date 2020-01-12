@@ -22,13 +22,11 @@ public class LocalShop implements ShopInterface {
     }
 
     public void increaseItemQuantity(Item item, int quantity) {
-        Item foundItem = findItem(item);
-        foundItem.setQuantity(foundItem.getQuantity() + quantity);
+        item.setQuantity(item.getQuantity() + quantity);
     }
 
     public void decreaseItemQuantity(Item item, int quantity) {
-        Item foundItem = findItem(item);
-        foundItem.setQuantity(foundItem.getQuantity() - quantity);
+        item.setQuantity(item.getQuantity() - quantity);
     }
 
 
@@ -60,12 +58,6 @@ public class LocalShop implements ShopInterface {
         return null;
     }
 
-    public Item findItem(Item item) {
-        for(Item i : allItemList) {
-            if(item.equals(i)) return i;
-        }
-        return null;
-    }
 
     public String getName() {
         return name;

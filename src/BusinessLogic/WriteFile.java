@@ -1,22 +1,25 @@
 package BusinessLogic;
 
 import java.io.*;
+import java.text.DecimalFormat;
 
 public class WriteFile {
 
     public static void writeToFile(LocalShop localShop, FileOutputStream out){
-        try {
-
+        try(FileWriter fw = new FileWriter("files/" + localShop.getName() + ".txt");
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter outt = new PrintWriter(bw))
+        {
             for (Item item : localShop.getAllItemList()) {
-                String string = item.intToString(item.getCode()) + " " + item.getName() + " " + item.floatToString(item.getPrice()) + " " + item.intToString(item.getQuantity()) + "\n";
-                out.write(string.getBytes());
 
+                String string = (item.getCode()) + " " + item.getName() + " " + String.format("%.2f", item.getPrice()) + " " + item.getQuantity();
+                outt.println(string);
             }
-            out.flush();
-            out.close();
+            outt.flush();
+            outt.close();
             System.out.println("data has been saved to file");
-        } catch (Exception e) {
-            System.out.println("could not write to file");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

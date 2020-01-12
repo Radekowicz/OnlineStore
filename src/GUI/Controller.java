@@ -1,7 +1,10 @@
 package GUI;
 
 import BusinessLogic.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,15 +32,14 @@ public class Controller implements Initializable{
 
     private static LocalShop localShop;
 
-    private Stage window;
-    private static double windowWidth = 800;
-    private double windowHeight = 540;
-
     @FXML
     public static BorderPane borderPane;
 
     @FXML
     private TableView<TableItem> tableItemTableView;
+
+    private ObservableList<TableItem> observableTableItemList;
+
 
     @FXML
     TableColumn<TableItem, Integer> codeColumn;
@@ -63,6 +65,8 @@ public class Controller implements Initializable{
     @FXML
     ListView<String> listView;
 
+    @FXML Button selectButton;
+
 
     private static TableItem selectedItem;
 
@@ -74,15 +78,25 @@ public class Controller implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        selectButton.setDisable(true);
+        refreshButtonClicked();
         tableView();
+
+        listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+               selectButton.setDisable(false);
+            }
+        });
+
     }
 
 
     public void selectShop() {
         String selectedShopName = listView.getSelectionModel().getSelectedItem();
         OnlineController.setShopName(selectedShopName);
-
-        loadWindow("GUI/OnlineSearchWindow.fxml", "Online search");
+        listView.getSelectionModel().clearSelection();
+        loadOnlineWindow("GUI/OnlineSearchWindow.fxml", "Online search");
     }
 
 
@@ -128,8 +142,7 @@ public class Controller implements Initializable{
     }
 
     @FXML
-    public void addItemButtonClicked() throws Exception {
-//        PopupWindowController.setAnchorPane( FXMLLoader.load(getClass().getResource("GUI/PopupWindow.fxml")));
+    public void addItemButtonClicked() {
         loadWindow("GUI/PopupWindow.fxml", "Add item");
     }
 
@@ -160,10 +173,9 @@ public class Controller implements Initializable{
         //quantity
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
-        ObservableList<TableItem> observableTableItemList = Utils.getTableItemObservableList(localShop.getAllItemList());
+        observableTableItemList = Utils.getTableItemObservableList(localShop.getAllItemList());
         tableItemTableView.setItems(observableTableItemList);
     }
-
 
 
     public static void setLocalShop(LocalShop localShop) {
@@ -178,6 +190,18 @@ public class Controller implements Initializable{
             stage.setScene(new Scene(parent));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
+        } catch (IOException ex) {
+            System.out.println("exception");
+        }
+    }
+
+    public void loadOnlineWindow(String loc, String title) {
+        try {
+            Parent parent = FXMLLoader.load(getClass().getClassLoader().getResource(loc));
+            Stage stage = new Stage(StageStyle.DECORATED);
+            stage.setTitle(title);
+            stage.setScene(new Scene(parent));
+            stage.show();
         } catch (IOException ex) {
             System.out.println("exception");
         }

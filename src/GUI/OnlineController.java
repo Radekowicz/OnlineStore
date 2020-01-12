@@ -1,6 +1,7 @@
 package GUI;
 
 import BusinessLogic.Item;
+import BusinessLogic.LocalShop;
 import BusinessLogic.TableItem;
 import BusinessLogic.Utils;
 import javafx.collections.FXCollections;
@@ -22,6 +23,8 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
+//import static BusinessLogic.ShopMain.localShop;
 
 public class OnlineController implements Initializable {
 
@@ -84,12 +87,6 @@ public class OnlineController implements Initializable {
     }
 
 
-
-
-
-
-
-
     private static final int INIT_VALUE = 1;
     public void setOrderSlider() {
         orderSlider.setValue(INIT_VALUE);
@@ -103,11 +100,19 @@ public class OnlineController implements Initializable {
     }
 
     public void orderButtonClicked() {
-//        TableItem selectedItem = tableItemTableView.getSelectionModel().getSelectedItem();
-//        Item item = localShop.searchByCode(selectedItem.getCode());
-//        if(!(selectedItem == null)) localShop.decreaseItemQuantity(item, Integer.valueOf(orderTextField.getText()));
-//
-//        tableView();
+        TableItem selectedItem = tableItemTableView.getSelectionModel().getSelectedItem();
+        String code = Integer.toString(tableItemTableView.getSelectionModel().getSelectedItem().getCode());
+        String quantity = orderTextField.getText();
+        String request = "sendItem;" + shopName + ";" + code + ";" + quantity;//gyugyg
+        System.out.println(request);
+        Utils.sendRequest(request);
+
+        LocalShop shop = Controller.getLocalShop();
+
+        if(shop.searchByCode(selectedItem.getCode()) == null) shop.addItem(new Item(selectedItem.getCode(), selectedItem.getName(), Float.parseFloat(selectedItem.getPrice()), Integer.valueOf(quantity)));
+        else shop.increaseItemQuantity(shop.searchByCode(selectedItem.getCode()), Integer.valueOf(orderTextField.getText()));
+
+//        searchButtonClicked();
     }
 
 

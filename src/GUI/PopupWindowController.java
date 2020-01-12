@@ -52,16 +52,17 @@ public class PopupWindowController implements Initializable {
     }
 
         public static void createItem(TextField codeInput, TextField nameInput, TextField priceInput, TextField quantityInput) {
-        try {
-            int code = Integer.parseInt(codeInput.getText());
-            String name = nameInput.getText();
-            float price = Float.parseFloat(priceInput.getText());
-            int quantity = Integer.parseInt(quantityInput.getText());
-            Controller.getLocalShop().addItem(new Item(code, name, price, quantity));
-        } catch (NumberFormatException e) {
+            try {
+                int code = Integer.parseInt(codeInput.getText());
+                String name = nameInput.getText();
+                float price = Float.parseFloat(priceInput.getText());
+                int quantity = Integer.parseInt(quantityInput.getText());
+                Controller.getLocalShop().addItem(new Item(code, name, price, quantity));
+//                Controller.refreshTableView();
+            } catch (NumberFormatException e) {
             System.out.println("Wrong input");
+            }
         }
-    }
 
 }
 

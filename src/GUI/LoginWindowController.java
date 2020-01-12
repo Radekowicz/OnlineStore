@@ -32,7 +32,6 @@ public class LoginWindowController  {
         String shopName = shopNameTextField.getText();
         sendShopName(shopName);
 
-
         Stage stage = (Stage) anchorPane.getScene().getWindow();
         stage.close();
         loadWindow("GUI/LocalPrimaryWindow.fxml", shopName);
@@ -48,6 +47,8 @@ public class LoginWindowController  {
             stage.setScene(new Scene(parent));
             stage.setOnCloseRequest(e -> {
                 Controller.closeProgram();
+                System.out.println("removeShop;" + Controller.getLocalShop().getName());
+                Utils.sendRequest("removeShop;" + Controller.getLocalShop().getName());
                 System.exit(0);
             }); //exit program
             stage.show();
