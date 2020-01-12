@@ -1,11 +1,13 @@
 package BusinessLogic;
 
-import java.io.*;
-import java.text.DecimalFormat;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 public class WriteFile {
 
-    public static void writeToFile(LocalShop localShop, FileOutputStream out){
+    public static void writeToFile(LocalShop localShop){
         try(FileWriter fw = new FileWriter("files/" + localShop.getName() + ".txt");
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter outt = new PrintWriter(bw))
@@ -17,7 +19,7 @@ public class WriteFile {
             }
             outt.flush();
             outt.close();
-            System.out.println("data has been saved to file");
+            System.out.println("data have been saved to file");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

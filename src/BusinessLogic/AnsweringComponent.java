@@ -2,13 +2,11 @@ package BusinessLogic;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AnsweringComponent implements Runnable {
     private LocalShop localShop;
     private Socket socket;
-
 
 
     @Override
@@ -37,8 +35,6 @@ public class AnsweringComponent implements Runnable {
                 String inputString = readFromServer();
                 String[] array = inputString.split(";");
                 String requestString = array[0];
-                System.out.println("input:" + inputString);
-
 
                 if ("searchItems".equals(requestString)) {
                     String searchInput = array[1];
@@ -46,20 +42,16 @@ public class AnsweringComponent implements Runnable {
                     List<Item> searchResults = localShop.search(searchInput);
 
                     String searchResultsToString = Utils.itemArrayToString(searchResults); //item1;item2;item3...   item -> code,name,price,quantity;
-                    System.out.println("output:" + searchResultsToString);
-
 
                     printWriter.println(searchResultsToString);
                     printWriter.flush();
                 }
 
                 else if("sendItem".equals(requestString)) {
-                    System.out.println("i am in AC");
                     String itemCode = array[1];
                     String quantity = array[2];
                     Item item = localShop.searchByCode(Integer.parseInt(itemCode));
-                    System.out.println("Decreased item:" +  item + ", by  " + quantity);
-                    localShop.decreaseItemQuantity(item, Integer.parseInt(quantity)); //zmniejsza ilosc produktów w sklepeie odpowiadajacym ale nie zwieksza w pytajacym!!!
+                    localShop.decreaseItemQuantity(item, Integer.parseInt(quantity));
                 }
 
             } catch (IOException e) {

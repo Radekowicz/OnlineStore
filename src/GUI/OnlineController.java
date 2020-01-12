@@ -7,24 +7,19 @@ import BusinessLogic.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
-import java.io.IOException;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-//import static BusinessLogic.ShopMain.localShop;
 
 public class OnlineController implements Initializable {
 
@@ -68,7 +63,6 @@ public class OnlineController implements Initializable {
 
     }
 
-
     public void searchButtonClicked() {
         String answer = Utils.sendRequestAndReturnAnswer("searchItems;" + shopName + ";" + searchTextField.getText());
         String[] searchedItems =  answer.split(";");
@@ -95,16 +89,13 @@ public class OnlineController implements Initializable {
         orderTextField.setText(Integer.toString(INIT_VALUE));
         orderTextField.textProperty().bindBidirectional(orderSlider.valueProperty(), NumberFormat.getNumberInstance());
         orderSlider.valueProperty().addListener((obs, oldval, newVal) -> orderSlider.setValue(newVal.intValue()));
-
-
     }
 
     public void orderButtonClicked() {
         TableItem selectedItem = tableItemTableView.getSelectionModel().getSelectedItem();
         String code = Integer.toString(tableItemTableView.getSelectionModel().getSelectedItem().getCode());
         String quantity = orderTextField.getText();
-        String request = "sendItem;" + shopName + ";" + code + ";" + quantity;//gyugyg
-        System.out.println(request);
+        String request = "sendItem;" + shopName + ";" + code + ";" + quantity;
         Utils.sendRequest(request);
 
         LocalShop shop = Controller.getLocalShop();

@@ -3,7 +3,7 @@ package BusinessLogic;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocalShop implements ShopInterface {
+public class LocalShop{
     private String name;
     private List<Item> allItemList;
 
@@ -42,7 +42,6 @@ public class LocalShop implements ShopInterface {
         return searchedItemList;
     }
 
-    @Override
     public Item searchByCode(int code) {
         for(Item item : allItemList) {
             if(item.getCode() == code) return item;
@@ -50,7 +49,6 @@ public class LocalShop implements ShopInterface {
         return null;
     }
 
-    @Override
     public Item searchByName(String name) {
         for(Item item : allItemList) {
             if(item.getName().equals(name)) return item;

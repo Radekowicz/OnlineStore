@@ -17,7 +17,7 @@ public class Hub {
 
     public static void main(String[] args) throws IOException {
         onlineShopList = new ArrayList<>();
-        System.out.println("Online shop list created");
+        System.out.println("Hub launched");
         ServerSocket ss = new ServerSocket(4999);
         shopNameToSocketGUIMap = new HashMap<>();
         shopNameToSocketACMap = new HashMap<>();
@@ -34,7 +34,6 @@ public class Hub {
 
     public static void handleClient(Socket socketGUI, Socket socketAC) {
         try {
-            System.out.println("client connected");
 
             InputStreamReader in = new InputStreamReader(socketGUI.getInputStream());
             BufferedReader bf = new BufferedReader(in);
@@ -42,18 +41,15 @@ public class Hub {
             String userName = bf.readLine();
             shopNameToSocketGUIMap.put(userName, socketGUI);
             shopNameToSocketACMap.put(userName, socketAC);
-            System.out.println(userName);
+            System.out.println("Shop connected: " + userName);
 
             while (true) {
                 String str = bf.readLine();
                 if (str == null)
                     break;
 
-                System.out.println("request: " + str);
-
                 String[] array =  str.split(";");
                 String requestString = array[0];
-                System.out.println("request str:" + requestString);
 
                 if("getShopList".equals(requestString)) {
                     List<String> shopList = new ArrayList<>(shopNameToSocketGUIMap.keySet());
@@ -78,7 +74,6 @@ public class Hub {
                 }
 
                 else if("sendItem".equals(requestString)) {
-                    System.out.println("i am in if");
                     String shopName = array[1];
                     String itemCode = array[2];
                     String quantity = array[3];
@@ -86,7 +81,6 @@ public class Hub {
                     Socket recipientSocketAC = shopNameToSocketACMap.get(shopName);
 
                     PrintWriter recipientPrintWriter = new PrintWriter(recipientSocketAC.getOutputStream());
-                    System.out.println("goes to AC:" + requestString + ";" + itemCode + ";" + quantity);
                     recipientPrintWriter.println(requestString + ";" + itemCode + ";" + quantity);
                     recipientPrintWriter.flush();
 
@@ -96,23 +90,12 @@ public class Hub {
 
                 else if("removeShop".equals(requestString)) {
                     String shopName = array[1];
-                    System.out.println("shop do delete: " + shopName);
-                    System.out.println("before removal:");
-
-                    List<String> shopList = new ArrayList<>(shopNameToSocketGUIMap.keySet());
-                    String shopListToString = Utils.arrayToString(shopList);
-                    System.out.println(shopListToString);
 
                     shopNameToSocketGUIMap.remove(shopName);
                     shopNameToSocketACMap.remove(shopName);
 
-                    System.out.println("after removal:");
-                    shopList = new ArrayList<>(shopNameToSocketGUIMap.keySet());
-                    shopListToString = Utils.arrayToString(shopList);
-                    System.out.println(shopListToString);
+                    System.out.println("Shop closed: " + shopName);
                 }
-
-
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -129,7 +112,6 @@ public class Hub {
         PrintWriter pr = new PrintWriter(socketGUI.getOutputStream());
         pr.println(answerFromShop);
         pr.flush();
-
     }
 
 }

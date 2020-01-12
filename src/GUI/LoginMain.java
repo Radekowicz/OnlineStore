@@ -1,13 +1,10 @@
 package GUI;
 
-import GUI.Controller;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import BusinessLogic.*;
-
 
 
 public class LoginMain extends Application {
@@ -16,7 +13,7 @@ public class LoginMain extends Application {
     public void start(Stage primaryStage) throws Exception{
 
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("GUI/LoginWindow.fxml"));
-        primaryStage.setTitle("Login window");
+        primaryStage.setTitle("Login");
         primaryStage.setScene(new Scene(root));
         primaryStage.setOnCloseRequest(e -> System.exit(0));
 

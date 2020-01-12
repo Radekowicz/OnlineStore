@@ -45,19 +45,10 @@ public class Item {
         this.quantity = quantity;
     }
 
-//    @Override
-//    public String toString() {
-//        return  "Code: " + code + "\n" +
-//                "Name: " + name + "\n" +
-//                "Price: " + price + "\n" +
-//                "Quantity: " + quantity;
-//    }
-
     @Override
     public String toString() {
         return  code + "," + name + "," + price + "," + quantity;
     }
-
 
     public String intToString(int i) {
         return  Integer.toString(i);

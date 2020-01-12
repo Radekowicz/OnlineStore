@@ -1,6 +1,10 @@
 package GUI;
 
-import BusinessLogic.*;
+import BusinessLogic.Item;
+import BusinessLogic.LocalShop;
+import BusinessLogic.TableItem;
+import BusinessLogic.Utils;
+import BusinessLogic.WriteFile;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -17,14 +21,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
-import java.io.*;
-import java.net.Socket;
+import java.io.IOException;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Observable;
 import java.util.ResourceBundle;
 
 
@@ -40,7 +42,6 @@ public class Controller implements Initializable{
 
     private ObservableList<TableItem> observableTableItemList;
 
-
     @FXML
     TableColumn<TableItem, Integer> codeColumn;
 
@@ -54,7 +55,7 @@ public class Controller implements Initializable{
     TableColumn<TableItem, Integer> quantityColumn;
 
     @FXML
-    private TextField searchTextField;
+    TextField searchTextField;
 
     @FXML
     TextField sellTextField;
@@ -68,12 +69,10 @@ public class Controller implements Initializable{
     @FXML
     ListView<String> listView;
 
-    @FXML Button selectButton;
-
+    @FXML
+    Button selectButton;
 
     private static TableItem selectedItem;
-
-
 
     public static LocalShop getLocalShop() {
         return localShop;
@@ -82,7 +81,6 @@ public class Controller implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         selectButton.setDisable(true);
-        sellButton.setDisable(true);
         refreshButtonClicked();
         tableView();
 
@@ -92,17 +90,7 @@ public class Controller implements Initializable{
                selectButton.setDisable(false);
             }
         });
-
-        tableItemTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TableItem>() {
-            @Override
-            public void changed(ObservableValue<? extends TableItem> observable, TableItem oldValue, TableItem newValue) {
-                if(tableItemTableView.getSelectionModel().isCellSelectionEnabled()) sellButton.setDisable(true);
-                else sellButton.setDisable(false);
-            }
-        });
-
     }
-
 
     public void selectShop() {
         String selectedShopName = listView.getSelectionModel().getSelectedItem();
@@ -111,27 +99,24 @@ public class Controller implements Initializable{
         loadOnlineWindow("GUI/OnlineSearchWindow.fxml", "Online search");
     }
 
-
     public static void closeProgram() {
-        WriteFile.writeToFile(localShop, ReadFile.getOut());
-        System.out.println("closebutton clicked");
+        WriteFile.writeToFile(localShop);
     }
 
-
     public void saveProgram() {
-        WriteFile.writeToFile(localShop, ReadFile.getOut());
-        System.out.println("closebutton clicked");
+        WriteFile.writeToFile(localShop);
     }
 
     public void refreshButtonClicked() {
         String answer = Utils.sendRequestAndReturnAnswer("getShopList");
         String[] onlineShopArray =  answer.split(";");
 
-        ObservableList<String> observableList = FXCollections.observableArrayList(onlineShopArray);
+        List<String> list = new ArrayList<>(Arrays.asList(onlineShopArray));
+        list.remove(localShop.getName());
+
+        ObservableList<String> observableList = FXCollections.observableArrayList(list);
         listView.setItems(observableList);
     }
-
-
 
     private static final int INIT_VALUE = 1;
     public void setSellSlider() {
@@ -141,8 +126,6 @@ public class Controller implements Initializable{
         sellTextField.setText(Integer.toString(INIT_VALUE));
         sellTextField.textProperty().bindBidirectional(sellSlider.valueProperty(), NumberFormat.getNumberInstance());
         sellSlider.valueProperty().addListener((obs, oldval, newVal) -> sellSlider.setValue(newVal.intValue()));
-
-
     }
 
     public void sellButtonClicked() {
@@ -164,13 +147,11 @@ public class Controller implements Initializable{
         tableView();
     }
 
-
     public void searchField() {
         String typedString = searchTextField.getText();
         List<Item> itemList = localShop.search(typedString);
         tableItemTableView.setItems(Utils.getTableItemObservableList(itemList));
     }
-
 
     public void tableView() {
         // code
@@ -188,7 +169,6 @@ public class Controller implements Initializable{
         observableTableItemList = Utils.getTableItemObservableList(localShop.getAllItemList());
         tableItemTableView.setItems(observableTableItemList);
     }
-
 
     public static void setLocalShop(LocalShop localShop) {
         Controller.localShop = localShop;
@@ -217,9 +197,5 @@ public class Controller implements Initializable{
         } catch (IOException ex) {
             System.out.println("exception");
         }
-    }
-
-    public static void setBorderPane(BorderPane borderPane) {
-        Controller.borderPane = borderPane;
     }
 }
