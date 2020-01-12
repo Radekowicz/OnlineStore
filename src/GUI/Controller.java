@@ -63,6 +63,9 @@ public class Controller implements Initializable{
     Slider sellSlider;
 
     @FXML
+    Button sellButton;
+
+    @FXML
     ListView<String> listView;
 
     @FXML Button selectButton;
@@ -79,6 +82,7 @@ public class Controller implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         selectButton.setDisable(true);
+        sellButton.setDisable(true);
         refreshButtonClicked();
         tableView();
 
@@ -86,6 +90,14 @@ public class Controller implements Initializable{
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                selectButton.setDisable(false);
+            }
+        });
+
+        tableItemTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TableItem>() {
+            @Override
+            public void changed(ObservableValue<? extends TableItem> observable, TableItem oldValue, TableItem newValue) {
+                if(tableItemTableView.getSelectionModel().isCellSelectionEnabled()) sellButton.setDisable(true);
+                else sellButton.setDisable(false);
             }
         });
 
