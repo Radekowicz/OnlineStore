@@ -29,9 +29,12 @@ public class Utils {
     }
 
     public static String sendRequestAndReturnAnswer(String request) {
+        System.out.println("entered sendRequestAndReturnAnswer()");
         String answerString;
         try {
+
             Socket socket = ShopMain.socketGUI;
+
             PrintWriter printWriter = new PrintWriter(socket.getOutputStream());
 
             printWriter.println(request);
@@ -43,6 +46,7 @@ public class Utils {
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
             answerString = bufferedReader.readLine();
+            System.out.println(answerString);
 
         } catch (IOException e) {
             throw new RuntimeException(e);

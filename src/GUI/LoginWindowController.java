@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import java.io.IOException;
@@ -25,6 +26,18 @@ public class LoginWindowController  {
     @FXML
     TextField shopNameTextField;
 
+    @FXML
+    TextField IPTextField;
+
+    private static Controller fooController;
+
+    public static Controller getFooController() {
+        return fooController;
+    }
+
+    public static void setFooController(Controller fooController) {
+        LoginWindowController.fooController = fooController;
+    }
 
     public void submitButtonClicked() {
         String shopName = shopNameTextField.getText();
@@ -47,6 +60,13 @@ public class LoginWindowController  {
                 Utils.sendRequest("removeShop;" + Controller.getLocalShop().getName());
                 System.exit(0);
             }); //exit program
+//            try {
+//            FXMLLoader fxmlLoader = new FXMLLoader();
+//            Pane p = fxmlLoader.load(getClass().getClassLoader().getResource("GUI/LocalPrimaryWindow.fxml").openStream());
+//            fooController = fxmlLoader.getController();
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
             stage.show();
         } catch (IOException ex) {
             System.out.println("exception");
@@ -56,8 +76,9 @@ public class LoginWindowController  {
 
     public void sendShopName(String shopName) {
         try {
-            Socket socketGUI = new Socket("localhost", 4999);
-            Socket socketAC = new Socket("localhost", 4999);
+            String IP = IPTextField.getText();
+            Socket socketGUI = new Socket(IP, 4999);
+            Socket socketAC = new Socket(IP, 4999);
             ShopMain.setSocketGUI(socketGUI);
             ShopMain.setSocketAC(socketAC);
 

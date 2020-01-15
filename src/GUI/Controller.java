@@ -18,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -72,6 +73,20 @@ public class Controller implements Initializable{
     @FXML
     Button selectButton;
 
+     private static Controller fooController;
+
+    public static Controller getFooController() {
+        return fooController;
+    }
+
+    public static void setFooController(Controller fooController) {
+        Controller.fooController = fooController;
+    }
+
+    public static ObservableList<TableItem> getObservableTableItemList() {
+        return observableTableItemList;
+    }
+
     private static TableItem selectedItem;
 
     public static LocalShop getLocalShop() {
@@ -90,6 +105,20 @@ public class Controller implements Initializable{
                selectButton.setDisable(false);
             }
         });
+    }
+
+//    public static void increaseQuantity(LocalShop shop, TableItem tableItem, int quantity) {
+//        Item item = new Item(tableItem.getCode(), tableItem.getName(), Float.parseFloat(tableItem.getPrice()), tableItem.getQuantity() + quantity);
+//
+//        shop.getAllItemList().remove(shop.searchByCode(selectedItem.getCode()));
+//        observableTableItemList.remove(tableItem);
+//
+//        shop.getAllItemList().add(item);
+//        observableTableItemList.add(new TableItem(item));
+//    }
+
+    public static void increaseItemQuantityTI(TableItem tableItem, int quantity) {
+        tableItem.setQuantity(tableItem.getQuantity() + quantity);
     }
 
     public void selectShop() {
@@ -170,6 +199,8 @@ public class Controller implements Initializable{
         tableItemTableView.setItems(observableTableItemList);
     }
 
+
+
     public static void setLocalShop(LocalShop localShop) {
         Controller.localShop = localShop;
     }
@@ -193,6 +224,8 @@ public class Controller implements Initializable{
             Stage stage = new Stage(StageStyle.DECORATED);
             stage.setTitle(title);
             stage.setScene(new Scene(parent));
+            stage.setOnCloseRequest(event -> tableView());
+
             stage.show();
         } catch (IOException ex) {
             System.out.println("exception");

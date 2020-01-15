@@ -12,11 +12,8 @@ public class Hub {
     private static HashMap<String, Socket> shopNameToSocketGUIMap;
     private static HashMap<String, Socket> shopNameToSocketACMap;
 
-    public static List<LocalShop> onlineShopList;
-
 
     public static void main(String[] args) throws IOException {
-        onlineShopList = new ArrayList<>();
         System.out.println("Hub launched");
         ServerSocket ss = new ServerSocket(4999);
         shopNameToSocketGUIMap = new HashMap<>();
@@ -61,6 +58,7 @@ public class Hub {
                 }
 
                 else if("searchItems".equals(requestString)) {
+                    System.out.println("in searchItems");
                     String shopName = array[1];
                     String searchInput = array[2];
 
@@ -74,6 +72,7 @@ public class Hub {
                 }
 
                 else if("sendItem".equals(requestString)) {
+                    System.out.println("in sendItem");
                     String shopName = array[1];
                     String itemCode = array[2];
                     String quantity = array[3];

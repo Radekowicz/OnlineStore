@@ -14,6 +14,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+
 import java.net.URL;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -64,7 +66,9 @@ public class OnlineController implements Initializable {
     }
 
     public void searchButtonClicked() {
+        System.out.println("search button clicked");
         String answer = Utils.sendRequestAndReturnAnswer("searchItems;" + shopName + ";" + searchTextField.getText());
+        System.out.println("Answer: " + answer);
         String[] searchedItems =  answer.split(";");
         List<TableItem> tableItemList = new ArrayList<>();
         for(int i = 0; i < searchedItems.length; i++) {
@@ -77,7 +81,6 @@ public class OnlineController implements Initializable {
         }
         observableTableItemList = FXCollections.observableArrayList(tableItemList);
         tableView(observableTableItemList);
-        System.out.println(answer);
     }
 
 
@@ -92,6 +95,7 @@ public class OnlineController implements Initializable {
     }
 
     public void orderButtonClicked() {
+        System.out.println("order button clicked");
         TableItem selectedItem = tableItemTableView.getSelectionModel().getSelectedItem();
         String code = Integer.toString(tableItemTableView.getSelectionModel().getSelectedItem().getCode());
         String quantity = orderTextField.getText();
@@ -100,10 +104,24 @@ public class OnlineController implements Initializable {
 
         LocalShop shop = Controller.getLocalShop();
 
-        if(shop.searchByCode(selectedItem.getCode()) == null) shop.addItem(new Item(selectedItem.getCode(), selectedItem.getName(), Float.parseFloat(selectedItem.getPrice()), Integer.valueOf(quantity)));
-        else shop.increaseItemQuantity(shop.searchByCode(selectedItem.getCode()), Integer.valueOf(orderTextField.getText()));
+        if(shop.searchByCode(selectedItem.getCode()) == null) {
+            Item item = new Item(selectedItem.getCode(), selectedItem.getName(), Float.parseFloat(selectedItem.getPrice()), Integer.valueOf(quantity));
+            shop.addItem(item);
+            Controller.getObservableTableItemList().add(new TableItem(item));
+        }
+        else {
+            shop.increaseItemQuantity(shop.searchByCode(selectedItem.getCode()), Integer.valueOf(orderTextField.getText()));
+//            Controller.increaseItemQuantityTI(selectedItem, Integer.valueOf(orderTextField.getText()));
+//            System.out.println("delete");
+//            Controller.getObservableTableItemList().remove(selectedItem);
+//            System.out.println("add");
+//            Controller.getObservableTableItemList().add(selectedItem);
 
-//        searchButtonClicked();
+//            LoginWindowController.getFooController().tableView();
+        }
+
+//        Stage stage = (Stage) orderButton.getScene().getWindow();
+//        stage.close();
     }
 
 
